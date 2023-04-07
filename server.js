@@ -1,8 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
-
-// const Log = require('./models/logs');
+const Log = require('./models/logs');
 const app = express();
 const port = 3000;
 app.set('view engine', 'jsx');
@@ -21,7 +20,12 @@ mongoose.connection.once('open', () => {
     console.log('connected to mongo');
 });
 app.get('/logs', (req, res) => {
-    res.send('new')
+    Log.find({}, (err, allLogs) => {
+        res.render('Index', {
+            logs: allLogs
+        })
+    })
+
 })
 app.get('/log/:id', (req, res) => {
     res.render('Show')
@@ -40,8 +44,29 @@ app.post('/logs', (req, res) => {
     Log.create(req.body, (err, createdLog) => {
         res.redirect('/logs/:id')
     })
-    // res.send(req.body)
+
 })
+app.get('/logs/seed', (req, res) => {
+    Log.create([
+        {
+            title: 'John',
+            entry: '12 pm',
+            shipIsBroken: false
+        },
+        {
+            title: 'Williams',
+            entry: '9 am',
+            shipIsBroken: true
+        },
+        {
+            title: 'Edward',
+            entry: '8 am',
+            shipIsBroken: true
+        }
+    ], (err, data) => {
+        res.redirect('/logs');
+    })
+});
 app.listen(port, () => {
     console.log(`Listening to port: ${port} `)
 })

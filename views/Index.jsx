@@ -2,9 +2,21 @@ import React, { Component } from 'react'
 
 export default class Index extends Component {
     render() {
+        const logs = this.props.logs
         return (
             <div>
-                Index
+                <nav>
+                    <a href=''>Add a new Log</a>
+                </nav>
+                <ul>
+                    {logs.map((log, i) => {
+                        return (
+                            <li>
+                                {log.title}
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
         )
     }
