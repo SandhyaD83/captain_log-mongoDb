@@ -1,11 +1,13 @@
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Log = require('./models/logs');
 const app = express();
 const port = 3000;
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine())
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }))
 app.use((req, res, next) => {
     console.log('I run for all routes');
@@ -45,9 +47,14 @@ app.post('/logs', (req, res) => {
         req.body.shipIsBroken = false
     }
     Log.create(req.body, (err, createdLog) => {
-        res.redirect('/logs/:id')
+        res.redirect('/logs')
     })
 
+})
+app.delete('/logs/:id', (req, res) => {
+    Log.findByIdAndRemove(req.params.id, (err, data) => {
+        res.redirect('/logs')
+    })
 })
 app.get('/logs/seed', (req, res) => {
     Log.create([

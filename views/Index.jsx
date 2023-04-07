@@ -6,13 +6,16 @@ export default class Index extends Component {
         return (
             <div>
                 <nav>
-                    <a href=''>Add a new Log</a>
+                    <a href='/logs/new'>Add a new Log</a>
                 </nav>
                 <ul>
                     {logs.map((log, i) => {
                         return (
-                            <li>
+                            <li key={i}>
                                 <a href={`/log/${log.id}`}>{log.title}</a>
+                                <form action={`/logs/${log.id}?_method=DELETE`} method='POST'>
+                                    <input type="submit" value="Delete" />
+                                </form>
                             </li>
                         )
                     })}
