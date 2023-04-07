@@ -28,7 +28,10 @@ app.get('/logs', (req, res) => {
 
 })
 app.get('/log/:id', (req, res) => {
-    res.render('Show')
+    Log.findById(req.params.id, (err, foundLog) => {
+        res.render('Show', { log: foundLog })
+    })
+
 })
 
 app.get('/logs/new', (req, res) => {

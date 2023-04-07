@@ -12,7 +12,7 @@ export default class Index extends Component {
                     {logs.map((log, i) => {
                         return (
                             <li>
-                                {log.title}
+                                <a href={`/log/${log.id}`}>{log.title}</a>
                             </li>
                         )
                     })}
