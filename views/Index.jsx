@@ -16,6 +16,7 @@ export default class Index extends Component {
                                 <form action={`/logs/${log.id}?_method=DELETE`} method='POST'>
                                     <input type="submit" value="Delete" />
                                 </form>
+                                <a href={`/logs/${log.id}/edit`}>Edit this log</a>
                             </li>
                         )
                     })}

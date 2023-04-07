@@ -56,6 +56,30 @@ app.delete('/logs/:id', (req, res) => {
         res.redirect('/logs')
     })
 })
+app.get('/logs/:id/edit', (req, res) => {
+    Log.findById(req.params.id, (err, foundLog) => {
+        if (!err) {
+            res.render('Edit', {
+                log: foundLog
+            })
+        } else {
+            res.send({ msg: err.message })
+        }
+    })
+
+})
+app.put('/logs/:id', (req, res) => {
+    if (req.body.shipIsBroken == 'on') {
+        req.body.shipIsBroken = true
+    }
+    else {
+        req.body.shipIsBroken = false
+    }
+    Log.findByIdAndUpdate(req.params.id, req.body, (err, updatedLog) => {
+        console.log(updatedLog)
+        res.redirect(`/log/${req.params.id}`);
+    });
+})
 app.get('/logs/seed', (req, res) => {
     Log.create([
         {
